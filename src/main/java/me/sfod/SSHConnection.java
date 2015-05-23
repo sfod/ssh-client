@@ -1,6 +1,4 @@
-/**
- * Created by sfod on 3/15/15.
- */
+package me.sfod;
 
 import com.jcraft.jsch.*;
 
@@ -25,9 +23,12 @@ public class SSHConnection {
             throws RuntimeException {
         session = null;
         try {
-            jsch.setKnownHosts("/home/sfod/.ssh/known_hosts");
+            String identity = "/home/sfod/.ssh/id_rsa";
+            jsch.addIdentity(identity);
+
             session = jsch.getSession(user, host, 22);
-            session.setPassword("ieGeeNe5m");
+            session.setConfig("StrictHostKeyChecking", "no");
+
             session.connect();
         } catch (JSchException e) {
             throw new RuntimeException(e.getMessage());
